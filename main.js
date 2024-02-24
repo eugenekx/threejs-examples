@@ -11,7 +11,7 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.z = 5;
 
 const texture = new THREE.TextureLoader().load("textures/cube-texture.jfif");
-const material = new THREE.MeshBasicMaterial({ map: texture });
+const material = new THREE.MeshPhongMaterial({ map: texture });
 
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
 const cube = new THREE.Mesh(cubeGeometry, material);
@@ -26,6 +26,10 @@ const sphereGeometry = new THREE.SphereGeometry(0.5);
 const sphere = new THREE.Mesh(sphereGeometry, material);
 sphere.position.x = -2;
 scene.add(sphere);
+
+const light = new THREE.PointLight(0xffffff);
+light.position.set(0, 1, 1);
+scene.add(light);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
