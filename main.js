@@ -27,21 +27,28 @@ const sphere = new THREE.Mesh(sphereGeometry, material);
 sphere.position.x = -2;
 scene.add(sphere);
 
-const light = new THREE.PointLight(0xffffff);
-light.position.set(0, 1, 1);
+const light = new THREE.PointLight(0xffffff, 2);
+light.position.set(0, 0, 2);
 scene.add(light);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-function animate() {
+function animate(time) {
+  const period = 500; // ms
+  const lfo = (delay = 0) => Math.sin(time / period + delay);
+
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
+
   cube.rotateY(0.01);
+  cube.position.y = lfo();
 
   cone.rotateY(0.01);
+  cone.position.y = lfo(0.5);
 
   sphere.rotateY(0.01);
+  sphere.position.y = lfo(-0.5);
 }
 animate();
