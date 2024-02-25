@@ -144,7 +144,7 @@ const light = new THREE.PointLight(0xffffff, 2);
 light.position.set(0, 0, 2);
 scene.add(light);
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -153,7 +153,7 @@ const loader = new GLTFLoader();
 let cat;
 
 loader.load(
-  "models/cat.glb",
+  "models/model.glb",
   function (gltf) {
     cat = gltf.scene;
     scene.add(cat);
