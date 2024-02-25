@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 class PickHelper {
   constructor() {
@@ -147,6 +148,23 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+const loader = new GLTFLoader();
+
+let cat;
+
+loader.load(
+  "models/cat.glb",
+  function (gltf) {
+    cat = gltf.scene;
+    scene.add(cat);
+    cat.position.y = 2;
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
+
 const pickHelper = new PickHelper();
 
 function animate(time) {
@@ -164,6 +182,10 @@ function animate(time) {
 
   cone.rotateY(0.01);
   cone.position.y = lfo(0.5);
+
+  if (cat) {
+    cat.rotateY(0.01);
+  }
 
   time *= 0.001;
 
