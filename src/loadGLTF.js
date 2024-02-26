@@ -6,7 +6,6 @@ export function loadGLTF(scene, url) {
   loader.load(
     url,
     function (gltf) {
-      console.log(gltf);
       scene.add(gltf.scene);
     },
     undefined,

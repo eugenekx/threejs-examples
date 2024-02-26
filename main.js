@@ -1,7 +1,7 @@
-import { initThree } from "./src/initThree";
+import { initThree, clearScene } from "./src/initThree";
 import { loadGLTF } from "./src/loadGLTF";
 
-const textures = {
+const textureUrls = {
   wood: {
     urlAlbedo: "textures/wooden-planks/albedo.png",
     urlNormal: "textures/wooden-planks/normal.png",
@@ -19,11 +19,12 @@ const textures = {
 const catModelUrl = "models/cat.glb";
 
 window.addEventListener("DOMContentLoaded", function () {
-  const loadCatModelBtn = document.querySelector("button");
+  const scene = initThree(textureUrls);
 
-  loadCatModelBtn.addEventListener("onclick", function () {
+  const loadCatModelBtn = document.querySelector("#loadCatModelBtn");
+
+  loadCatModelBtn.addEventListener("click", function () {
+    clearScene(scene);
     loadGLTF(scene, catModelUrl);
   });
-
-  initThree(textures);
 });

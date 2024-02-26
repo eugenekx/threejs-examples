@@ -1,20 +1,17 @@
 import * as THREE from "three";
 import { getMaterial } from "./getMaterial";
 
-function initGeometry(scene, textures) {
-  const sphereGeometry = new THREE.SphereGeometry(0.5);
-  const sphere = new THREE.Mesh(sphereGeometry, getMaterial(textures["wood"]));
-  sphere.position.x = -2;
-  scene.add(sphere);
+export function initThree(textures) {
+  const scene = initScene();
 
-  const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-  const cube = new THREE.Mesh(cubeGeometry, getMaterial(textures["stone"]));
-  scene.add(cube);
+  initGeometry(scene, textures);
 
-  const coneGeometry = new THREE.ConeGeometry(1, 1, 4);
-  const cone = new THREE.Mesh(coneGeometry, getMaterial(textures["brick"]));
-  cone.position.x = 2;
-  scene.add(cone);
+  return scene;
+}
+
+export function clearScene(scene) {
+  const meshes = scene.children.filter(({ type }) => type === "Mesh");
+  scene.remove.apply(scene, meshes);
 }
 
 function initScene() {
@@ -44,7 +41,7 @@ function initScene() {
     renderer.render(scene, camera);
 
     scene.children
-      .filter((elem) => elem.type === "Mesh" || elem.type === "Group")
+      .filter(({ type }) => type === "Mesh" || type === "Group")
       .forEach((elem, i) => {
         elem.rotateY(0.01);
         elem.position.y = lfo(i * 0.5);
@@ -57,8 +54,24 @@ function initScene() {
   return scene;
 }
 
-export function initThree(textures) {
-  const scene = initScene();
+function initGeometry(scene, textureUrls) {
+  const sphereGeometry = new THREE.SphereGeometry(0.5);
+  const sphere = new THREE.Mesh(
+    sphereGeometry,
+    getMaterial(textureUrls["wood"])
+  );
+  sphere.position.x = -2;
+  scene.add(sphere);
 
-  initGeometry(scene, textures);
+  const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+  const cube = new THREE.Mesh(cubeGeometry, getMaterial(textureUrls["stone"]));
+  scene.add(cube);
+
+  const pyramidGeometry = new THREE.ConeGeometry(1, 1, 4);
+  const pyramid = new THREE.Mesh(
+    pyramidGeometry,
+    getMaterial(textureUrls["brick"])
+  );
+  pyramid.position.x = 2;
+  scene.add(pyramid);
 }
